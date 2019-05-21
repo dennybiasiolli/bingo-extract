@@ -13,7 +13,7 @@ export function Square(props: { value?: string, onClick: Function }) {
       className="square"
       onClick={() => props.onClick()}
     >
-      {props.value}
-    </Button >
+      {props.value || ' '}
+    </Button>
   );
 }
