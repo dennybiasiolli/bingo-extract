@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
-import { Button, CardContent, Tabs, Tab, Fab } from '@material-ui/core';
+import { Tabs, Tab, Fab } from '@material-ui/core';
 
 import { BingoBoard } from './BingoBoard';
 import { Number } from './Number';
 import { RootState } from '../store';
-import { extract, reset } from '../store/reducers/bingo-actions';
+import { extract } from '../store/reducers/bingo-actions';
+import { SettingsView } from './SettingsView';
 
 
 const mapStateToProps = (state: RootState) => ({
@@ -16,13 +17,12 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   extract: extract,
-  reset: reset,
 }, dispatch);
 
 
 export interface GameProps extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> { };
 
-function GameBase({ numbers, lastNumberExtracted, extract, reset }: GameProps) {
+function GameBase({ numbers, lastNumberExtracted, extract }: GameProps) {
   const [tabValue, setTabValue] = useState(0);
   const extractButton = useRef(null);
   useEffect(() => {
@@ -69,21 +69,9 @@ function GameBase({ numbers, lastNumberExtracted, extract, reset }: GameProps) {
       {tabValue === 1 && <BingoBoard
         numbers={numbers}
       />}
-      {tabValue === 2 && <CardContent>
-        <Button
-          color="secondary"
-          variant="contained"
-          onClick={() => handleReset()}
-        >Reset Game</Button>
-      </CardContent>}
+      {tabValue === 2 && <SettingsView />}
     </div>
   );
-
-  function handleReset() {
-    if (window.confirm('Are you sure to reset to the initial state?')) {
-      reset();
-    }
-  }
 }
 
 export const Game = connect(
