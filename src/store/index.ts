@@ -10,4 +10,31 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type RootAction = BingoActionTypes;
-export default () => createStore<RootState, RootAction, {}, {}>(rootReducer);
+
+const loadState = () => {
+  try {
+    const serializedState = localStorage.getItem('state');
+    if (serializedState === null) {
+      return undefined;
+    }
+    return JSON.parse(serializedState) as RootState;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const saveState = (state: RootState) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('state', serializedState);
+  } catch {
+    // ignore write errors
+  }
+};
+
+const persistedState = loadState();
+export const store = createStore<RootState, RootAction, {}, {}>(
+  rootReducer, persistedState);
+store.subscribe(() => {
+  saveState(store.getState());
+});
