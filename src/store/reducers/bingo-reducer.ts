@@ -7,6 +7,7 @@ export interface BingoState {
   numbers: Array<BingoNumber>;
   shuffledIndexes: Array<number>;
   lastIndexExtracted: number;
+  lastNumberExtracted?: BingoNumber;
 }
 
 const initialState: BingoState = {
@@ -15,6 +16,7 @@ const initialState: BingoState = {
     Array.from({ length: 90 }, (v, k) => k)
   ),
   lastIndexExtracted: -1,
+  lastNumberExtracted: undefined,
 };
 
 export function BingoReducer(
@@ -24,16 +26,20 @@ export function BingoReducer(
   switch (action.type) {
     case BingoActions.EXTRACT:
       if (!(state.lastIndexExtracted + 1 >= 90)) {
-        console.log(state.lastIndexExtracted)
         const lastIndexExtracted = state.lastIndexExtracted + 1;
         const numbers = [...state.numbers];
-        numbers[state.shuffledIndexes[lastIndexExtracted]].extracted = true;
+        const lastNumberExtracted = numbers[state.shuffledIndexes[lastIndexExtracted]];
+        lastNumberExtracted.extracted = true;
         return {
           ...state,
           numbers,
           lastIndexExtracted,
+          lastNumberExtracted,
         }
       }
+      break;
+    case BingoActions.RESET:
+      return initialState;
   }
   return state;
 }

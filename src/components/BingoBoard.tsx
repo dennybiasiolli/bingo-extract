@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import { BingoSquare } from './BingoSquare';
 import { BingoNumber } from '../models/BingoNumber';
@@ -6,13 +6,22 @@ import { BingoNumber } from '../models/BingoNumber';
 
 export interface BingoBoardProps {
   numbers: BingoNumber[];
+  numberSize?: number;
+  rows?: number;
+  style?: CSSProperties;
 };
 
-export function BingoBoard({ numbers }: BingoBoardProps) {
+export function BingoBoard({ numbers, numberSize, rows = 9, style }: BingoBoardProps) {
+  const rowIndexes = Array.from({ length: rows }, (v, k) => k);
+  const numPerRow = 90 / rows;
+  console.log();
   return (
-    <div>
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((r) => (<div className="board-row" key={r}>
-        {numbers.slice(10 * r, 10 * r + 10).map((n) => renderSquare(n))}
+    <div style={{
+      ...style,
+      textAlign: 'center',
+    }}>
+      {rowIndexes.map((r) => (<div key={r}>
+        {numbers.slice(numPerRow * r, numPerRow * r + numPerRow).map((n) => renderSquare(n))}
       </div>))}
     </div>
   );
@@ -20,6 +29,7 @@ export function BingoBoard({ numbers }: BingoBoardProps) {
   function renderSquare(i: BingoNumber) {
     return <BingoSquare
       number={i}
+      size={numberSize}
       key={i.value}
     />;
   }
