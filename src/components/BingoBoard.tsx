@@ -14,7 +14,6 @@ export interface BingoBoardProps {
 export function BingoBoard({ numbers, numberSize, rows = 9, style }: BingoBoardProps) {
   const rowIndexes = Array.from({ length: rows }, (v, k) => k);
   const numPerRow = 90 / rows;
-  console.log();
   return (
     <div style={{
       ...style,
