@@ -61,7 +61,6 @@ function MainBoardBase({ numbers, lastNumberExtracted, lastTenNumbers, remaining
         <span>
           Last 10 numbers: {lastTenNumbers.join(', ')}
         </span>
-
       </div>
       <BingoBoard
         numbers={numbers}

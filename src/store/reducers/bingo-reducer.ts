@@ -8,7 +8,6 @@ export interface BingoState {
   shuffledIndexes: Array<number>;
   lastIndexExtracted: number;
   lastNumberExtracted?: BingoNumber;
-
 }
 
 const getInitialState = (): BingoState => ({
