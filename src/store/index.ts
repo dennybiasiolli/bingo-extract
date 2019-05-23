@@ -13,7 +13,7 @@ export type RootAction = BingoActionTypes;
 
 const loadState = () => {
   try {
-    const serializedState = localStorage.getItem('state');
+    const serializedState = localStorage.getItem('bingoExtractState');
     if (serializedState === null) {
       return undefined;
     }
@@ -26,7 +26,7 @@ const loadState = () => {
 const saveState = (state: RootState) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem('state', serializedState);
+    localStorage.setItem('bingoExtractState', serializedState);
   } catch {
     // ignore write errors
   }
