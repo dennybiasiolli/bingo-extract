@@ -8,19 +8,20 @@ export interface BingoState {
   shuffledIndexes: Array<number>;
   lastIndexExtracted: number;
   lastNumberExtracted?: BingoNumber;
+
 }
 
-const initialState: BingoState = {
-  numbers: Array.from({ length: 90 }, (v, k) => new BingoNumber(k + 1)),
+const getInitialState = (): BingoState => ({
+  numbers: Array.from({ length: 90 }, (_, k) => new BingoNumber(k + 1)),
   shuffledIndexes: shuffle(
-    Array.from({ length: 90 }, (v, k) => k)
+    Array.from({ length: 90 }, (_, k) => k)
   ),
   lastIndexExtracted: -1,
   lastNumberExtracted: undefined,
-};
+});
 
 export function BingoReducer(
-  state = initialState,
+  state = getInitialState(),
   action: BingoActionTypes,
 ): BingoState {
   switch (action.type) {
@@ -39,7 +40,7 @@ export function BingoReducer(
       }
       break;
     case BingoActions.RESET:
-      return initialState;
+      return getInitialState();
   }
   return state;
 }
