@@ -9,10 +9,20 @@ import { RootState } from '../store';
 import { extract } from '../store/reducers/bingo-actions';
 
 
-const mapStateToProps = (state: RootState) => ({
-  numbers: state.bingo.numbers,
-  lastNumberExtracted: state.bingo.lastNumberExtracted,
-});
+const mapStateToProps = (state: RootState) => {
+  const lastTenNumbers = state.bingo.shuffledIndexes.map(
+    i => state.bingo.numbers[i].value
+  ).slice(
+    Math.max(0, state.bingo.lastIndexExtracted - 9),
+    state.bingo.lastIndexExtracted + 1
+  );
+  return {
+    numbers: state.bingo.numbers,
+    lastNumberExtracted: state.bingo.lastNumberExtracted,
+    lastTenNumbers,
+    remaining: 90 - state.bingo.lastIndexExtracted - 1,
+  };
+}
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   extract: extract,
@@ -21,7 +31,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 
 export interface MainBoardProps extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> { };
 
-function MainBoardBase({ numbers, lastNumberExtracted, extract }: MainBoardProps) {
+function MainBoardBase({ numbers, lastNumberExtracted, lastTenNumbers, remaining, extract }: MainBoardProps) {
   const extractButton = useRef(null);
   useEffect(() => {
     const node: any = extractButton.current;
@@ -40,10 +50,19 @@ function MainBoardBase({ numbers, lastNumberExtracted, extract }: MainBoardProps
         variant="extended"
         onClick={() => extract()}
         buttonRef={extractButton}
-        style={{
-          marginBottom: 20,
-        }}
       >Extract</Fab>
+      <div style={{
+        margin: 10,
+      }}>
+        <span>
+          Remaining: {remaining}
+        </span>
+        <span style={{ margin: '0 10px' }}>|</span>
+        <span>
+          Last 10 numbers: {lastTenNumbers.join(', ')}
+        </span>
+
+      </div>
       <BingoBoard
         numbers={numbers}
         numberSize={30}
