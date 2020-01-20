@@ -25,7 +25,9 @@
     "start-electron": "electron .",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dist": "electron-builder -mwl",
+    "pack": "electron-builder -mwl --dir"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,6 +45,7 @@
     ]
   },
   "devDependencies": {
-    "electron": "^7.1.9"
+    "electron": "^7.1.9",
+    "electron-builder": "^22.2.0"
   }
 }
