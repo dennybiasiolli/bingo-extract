@@ -1,0 +1,11 @@
+appId: bingo.extract
+productName: Bingo Extract
+copyright: Copyright © 2020 ${author}
+icon: icons/icon.png
+
+files:
+  - electron/**/*
+    - www/**/*
+
+mac:
+    category: public.app-category.utilities
