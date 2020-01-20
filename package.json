@@ -2,7 +2,7 @@
   "name": "bingo-extract",
   "version": "0.1.0",
   "private": true,
-  "main": "electron/main.js",
+  "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
     "@material-ui/core": "^4.4.3",
