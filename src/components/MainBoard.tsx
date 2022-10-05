@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Fab } from '@material-ui/core';
@@ -32,14 +32,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 export interface MainBoardProps extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> { };
 
 function MainBoardBase({ numbers, lastNumberExtracted, lastTenNumbers, remaining, extract }: MainBoardProps) {
-  const extractButton = useRef(null);
-  useEffect(() => {
-    const node: any = extractButton.current;
-    if (node) {
-      node.focus();
-    }
-  });
-
   return (
     <div style={{
       textAlign: 'center',
@@ -49,7 +41,6 @@ function MainBoardBase({ numbers, lastNumberExtracted, lastTenNumbers, remaining
         color="primary"
         variant="extended"
         onClick={() => extract()}
-        buttonRef={extractButton}
       >Extract</Fab>
       <div style={{
         margin: 10,
